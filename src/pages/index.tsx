@@ -14,12 +14,12 @@ import Pimenton from "../assets/img/pimenton.png";
 
 const todosIngredientes = [
 	{
-		nombre: "Tomates",
+		nombre: "Tomate",
 		src: Tomates.src,
 		zIndex: 40,
 	},
 	{
-		nombre: "Champiñones",
+		nombre: "Champiñon",
 		src: Champinones.src,
 		zIndex: 50,
 	},
@@ -34,7 +34,7 @@ const todosIngredientes = [
 		zIndex: 70,
 	},
 	{
-		nombre: "Aceitunas",
+		nombre: "Aceituna",
 		src: Aceitunas.src,
 		zIndex: 80,
 	},
@@ -79,7 +79,7 @@ export default function Home() {
 				md={5}
 				justifyContent="center"
 				alignItems="center"
-				mt={10}
+				mt={4}
 				sx={{ position: "relative" }}
 			>
 				{ingredientes.map((ingrediente, i) => {
@@ -153,44 +153,46 @@ export default function Home() {
 					<Grid container>
 						<Typography>Ingredientes</Typography>
 					</Grid>
-					{todosIngredientes.map((ingrediente) => {
-						return (
-							<Button
-								key={ingrediente.nombre}
-								variant={
-									nombreIngredientes.includes(ingrediente.nombre)
-										? "outlined"
-										: "contained"
-								}
-								onClick={() => {
-									if (ingredienteEstado[ingrediente.nombre]) {
+					<Grid container gap={2}>
+						{todosIngredientes.map((ingrediente) => {
+							return (
+								<Button
+									key={ingrediente.nombre}
+									variant={
+										nombreIngredientes.includes(ingrediente.nombre)
+											? "outlined"
+											: "contained"
+									}
+									onClick={() => {
+										if (ingredienteEstado[ingrediente.nombre]) {
+											setState({
+												...state,
+												ingredientes: ingredientes.filter(
+													(ingredientesAplicados) =>
+														ingredientesAplicados.nombre !== ingrediente.nombre
+												),
+												ingredienteEstado: {
+													...ingredienteEstado,
+													[ingrediente.nombre]: false,
+												},
+											});
+											return;
+										}
 										setState({
 											...state,
-											ingredientes: ingredientes.filter(
-												(ingredientesAplicados) =>
-													ingredientesAplicados.nombre !== ingrediente.nombre
-											),
+											ingredientes: [...ingredientes, ingrediente],
 											ingredienteEstado: {
 												...ingredienteEstado,
-												[ingrediente.nombre]: false,
+												[ingrediente.nombre]: true,
 											},
 										});
-										return;
-									}
-									setState({
-										...state,
-										ingredientes: [...ingredientes, ingrediente],
-										ingredienteEstado: {
-											...ingredienteEstado,
-											[ingrediente.nombre]: true,
-										},
-									});
-								}}
-							>
-								{ingrediente.nombre}
-							</Button>
-						);
-					})}
+									}}
+								>
+									{ingrediente.nombre}
+								</Button>
+							);
+						})}
+					</Grid>
 				</Grid>
 			</Grid>
 		</Grid>
